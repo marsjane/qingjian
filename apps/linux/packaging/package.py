@@ -49,7 +49,7 @@ def main():
     if not (data / "dict.qj").is_file():
         run("bash", "apps/linux/scripts/fetch-data.sh")
     required = [data / name for name in ["dict.qj", "lm.qj", "glossary-en.qj", "glossary-ja.qj"]]
-    required += sorted((data / "dicts").glob("*.qj"))
+    required += sorted(p for p in (data / "dicts").glob("*.qj") if not p.name.startswith("."))
     if any(not p.is_file() for p in required) or not (data / "SOURCE-SHA256SUMS").is_file():
         raise SystemExit("缺少正式数据或校验记录，请运行 fetch-data.sh。")
     run("bash", "apps/linux/scripts/build.sh")
@@ -103,7 +103,7 @@ def main():
         (work / "PKGBUILD").write_text(recipe)
         copy(ROOT / "apps/linux/packaging/qingjian.install", work / "qingjian.install")
         env = os.environ.copy()
-        env.update(PKGDEST=str(out), PACKAGER="marsjane", SOURCE_DATE_EPOCH=epoch)
+        env.update(PKGDEST=str(out), PACKAGER="marsjane <45665172+marsjane@users.noreply.github.com>", SOURCE_DATE_EPOCH=epoch)
         run("makepkg", "--force", "--noconfirm", cwd=work, env=env)
     packages = sorted(out.glob("fcitx5-qingjian-*.pkg.tar.zst"))
     if len(packages) != 1:

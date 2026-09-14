@@ -11,6 +11,7 @@
 - C++20 插件构建：通过，启用 `-Wall -Wextra -Werror`。
 - 真实 Fcitx 动态加载器集成：通过；使用临时 XDG 目录和官方词库验证鼠标选词、译词、翻页数字选词、独立输入框、快捷键、释放事件、Shift+Alt 第二译词、Caps Lock、密码直通及原样上屏。
 - 正在运行的 Omarchy Fcitx5 服务：通过独立 D-Bus 测试输入框确认 `kaifa + Space → 开发`、`kaifa0 → 开发0`，并确认服务仍为 active。
+- Arch 包使用 makepkg 构建，提取后通过真实 Fcitx 动态插件测试；验证无用户配置时从安装目录读取默认设置。
 - 安装到用户目录并加入输入法列表；原有 Rime 默认设置保留，输入法列表变更前已备份。
 
 官方数据摘要：`e045d0f28236d0193087cf11cf35584327ebf85388310a5e2ceb885c0f7a6438`（qingjian-data.tar.gz）。
