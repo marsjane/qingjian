@@ -1,5 +1,8 @@
 # 青简 Qingjian
 
+本 fork 提供 Omarchy / Arch Linux 的 Fcitx5 适配：[Linux 使用说明](apps/linux/README.md) · [安装包](https://github.com/marsjane/qingjian/releases) · [同步上游与维护](apps/linux/MAINTAINING.md)。
+
+
 > 输入的不只是文字。
 
 青简（Qingjian）是一个使用 **Rust** 开发的跨平台输入法。

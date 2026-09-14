@@ -152,3 +152,16 @@ IMK 输入法，源码按 `app / host / imk / candidates / menubar / preferences
 - `phrases`：挖短语层（两遍扫语料：相邻两词、两段二元都够频的相邻三词，总次数与对话语料次数都 ≥ 2000 + 边界规则，读音由成分词拼出；我的 / 不知道 / 有没有 这类常用词表不收的组合，
   `assets/lexicon/phrases.tsv`；词库已并入过短语时重跑加 `--refresh`）。
 - `pack dict|lm|glossary`：打 `.qj`（释义表也进容器）。
+
+## apps/linux
+
+Fcitx5 `SharedLibrary` 插件（C++20）通过 C ABI 调用同进程 Rust Engine。`FactoryFor<QingjianState>` 为每个输入框延迟创建独立会话，Core 的词库、解析、译词与标点实现不变。
+`Runtime` 通过安装前缀查找官方资源，配置与用户记录遵循 XDG；词频／选词记录用共享学习器串行访问，避免多个输入框各自保存旧快照覆盖文件。
+当前未共享 Core 要求借用返回的个人词库／n-gram 等结构，因此只启用基本词频学习，不声称完整平台功能对齐。
+
+C ABI 字符串由 Rust 持有，借用至下一次可变操作；C++ 用 RAII 管理句柄，可变入口捕获 Rust panic。
+候选列表保留 Core 索引，上屏必须经 `Engine::commit` / `commit_translation`，因此选前缀候选保留剩余拼音。
+翻页与选词使用 Fcitx 原生 CandidateList 并尊重 Fcitx 全局导航配置；私密输入直通，release 事件不重复消费。
+
+`apps/linux/scripts/build.sh` 构建两份 `.so`，RPATH 为 `$ORIGIN`；`install.sh` 在用户前缀原子替换二进制及数据，注册文件写库的绝对路径。
+`fetch-data.sh` 校验官方 SHA256 后安全解包。`test.sh` 在临时 XDG 配置与独立实例中运行真实动态插件集成测试。

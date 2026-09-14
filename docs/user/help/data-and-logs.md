@@ -57,3 +57,9 @@ description: 青简在本机保存的文件及其内容、云联想发送的内�
 - **Windows**：「%APPDATA%\Qingjian\logs」；此外每个应用内的输入法部分另写一份到「%LOCALAPPDATA%\Qingjian」下的「tsf.日期.log」，同样按天分文件、保留 7 天。
 
 按天分文件，保留 7 天。缺省级别不记录输入内容；仅在「高级」页打开「详细日志」后才逐键记录，用于排查问题，排查完成后请关闭。
+
+## Linux alpha
+
+青简设置位于 `~/.config/qingjian/config.toml`，基本学习记录位于 `~/.local/share/qingjian/user/`。
+设置了 `XDG_CONFIG_HOME` 或 `XDG_DATA_HOME` 时，分别使用对应目录下的 `qingjian/`。
+Linux alpha 不写输入内容日志，学习数据仅保存在本机。删除学习记录前应退出 Fcitx5，避免运行中的数据再次写回。

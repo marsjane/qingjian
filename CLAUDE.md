@@ -4,8 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 仓库现状
 
-跨平台输入法，Core 平台无关，各平台只做壳。已发版 macOS 0.1.2（自用 + 测试者）、Windows 0.1.0-alpha.2（内测）；Linux 未开工。
+跨平台输入法，Core 平台无关，各平台只做壳。已发版 macOS 0.1.2（自用 + 测试者）、Windows 0.1.0-alpha.2（内测）；Linux 有 Fcitx5 alpha 接入（Arch / Omarchy，见 `apps/linux/README.md`）。
 阶段与已完成项见 `docs/plan/roadmap.md`，待办见 `docs/plan/todo.md`。
+
+## 个人 fork
+
+`origin` 为 marsjane/qingjian，`upstream` 为 qingjian-team/qingjian。默认开发分支 `omarchy`，`main` 保留上游历史。同步上游、打包及 Linux 标签发版见 `apps/linux/MAINTAINING.md`。
+Linux 提交前／推送钩子使用 `apps/linux/githooks`，与 CI 一样排除 macOS 壳；Linux 原生编译及打包测试见 `apps/linux/scripts/`。
 
 ## 目录地图
 
@@ -21,6 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `crates/qingjian-format`：`.qj` 数据容器（mmap 读、零拷贝视图、写入器、哈希索引）。
 - `crates/qingjian-platform`：平台层共用：`Config`（TOML 配置）、`extra_dictionaries`、Windows Server ↔ DLL 的 `protocol` 类型。
 - `crates/qingjian-render`：自绘渲染器（spike 中，分支 renderer-spike）：候选窗一帧 + 主题 → 位图，各平台只贴图。见 `docs/design/rendering.md`。
+- `apps/linux`：Fcitx5 C++ 壳 + Rust C ABI；每输入框独立 Engine、共享基本词频，脚本负责构建／用户级安装；功能边界见其 README。
 - `apps/cli`：Core 的验证工具：查询、逐键计时、输入日志回放、整句评测、常数扫描。排序 / 整句 / 纠错的改动先跑它再合。
 - `apps/macos`：IMK 壳，按 `app / host / imk / candidates / menubar / preferences` 分目录；`scripts/bundle.sh --install` 装到本机，`--pkg` 出分发包。
 - `apps/windows`：`server`（Server 进程：Engine + IPC + 自绘候选窗与状态条）+ `tsf`（TSF DLL）+ `settings`（WinUI 3）+ `installer`（Inno）。DLL 不能带 Engine 的依赖树，所以是两个 package。

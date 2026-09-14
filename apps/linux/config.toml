@@ -1,0 +1,21 @@
+# 青简 Linux alpha。修改后重启 Fcitx5 生效。
+[general]
+learning_language = "en" # en 英语 / ja 日语
+page_size = 5
+page_keys = "[]"
+shuangpin = "" # 全拼；可选 xiaohe / ziranma / microsoft / sogou
+full_width_punctuation = true
+input_log = false
+
+[shortcut]
+translation = "alt"
+translation_second = "shift+alt"
+
+[dictionaries]
+domains = ["idioms"]
+
+# Linux alpha 暂未接入这两项，始终离线。
+[model]
+enabled = false
+[predict]
+enabled = false

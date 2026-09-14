@@ -1,0 +1,18 @@
+# 由 package.py 在完成源码构建和输入法测试后生成；此步骤仅组装二进制包。
+pkgname=fcitx5-qingjian
+pkgver=@VERSION@
+pkgrel=1
+pkgdesc='Qingjian Chinese input method with learning-language annotations for Fcitx5 (Omarchy fork)'
+arch=('x86_64')
+url='https://github.com/marsjane/qingjian'
+license=('GPL-3.0-or-later' 'MIT' 'Unicode-3.0' 'CC-BY-SA-4.0')
+depends=('fcitx5>=@FCITX_VERSION@' 'glibc' 'libgcc' 'libstdc++')
+optdepends=('fcitx5-configtool: graphical input method configuration')
+options=('!debug' '!strip')
+install=qingjian.install
+source=('payload.tar.zst')
+sha256sums=('@PAYLOAD_SHA256@')
+
+package() {
+  cp -a "$srcdir/payload/usr" "$pkgdir/"
+}

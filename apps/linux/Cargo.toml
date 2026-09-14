@@ -1,0 +1,22 @@
+[package]
+name = "qingjian-linux"
+version = "0.1.0-alpha.1"
+description = "青简 Linux Fcitx5 接入层"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[lints]
+workspace = true
+
+[dependencies]
+qingjian-core.workspace = true
+qingjian-dictionary.workspace = true
+qingjian-platform.workspace = true
+qingjian-translate.workspace = true
+qingjian-learning.workspace = true
+qingjian-lm.workspace = true
+thiserror.workspace = true

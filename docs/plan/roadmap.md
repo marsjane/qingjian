@@ -162,7 +162,8 @@
   - [x] preedit 内联下划线、候选窗（词性 + 译文 + 分页 + 阴影）、云联想、失焦上屏、中英切换、设置界面、Inno 安装器
   - [x] 候选窗渲染搬进 Server 进程 + `uiAccess` + 自签，覆盖微软商店 / 任务栏搜索等高 z-band 宿主
   - [ ] 发版：Certum 开源代码签名证书、`windows-v<版本>` 标签与 CI
-- [ ] Linux IBus / Fcitx
+- [x] Linux Fcitx5 基础 alpha 接入（Arch / Omarchy）：拼音／双拼、候选译词、基本学习、用户级安装
+- [ ] Linux 完整功能对齐与 IBus 接入（当前边界见 `apps/linux/README.md`）
 - [ ] 配置同步
 - [ ] 跨平台词库
 

@@ -1,0 +1,30 @@
+name: Linux Fcitx5
+
+on:
+  push:
+    branches: [omarchy]
+  pull_request:
+    paths: ['apps/linux/**', 'crates/**', 'Cargo.*', '.github/workflows/linux.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arch:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - name: Install build dependencies
+        run: pacman -Syu --noconfirm --needed git rust fcitx5 python pkgconf curl
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Download verified product data
+        run: apps/linux/scripts/fetch-data.sh
+      - name: Build native plugin
+        run: apps/linux/scripts/build.sh
+      - name: Test Linux adapter
+        run: cargo test -p qingjian-linux --locked
+      - name: Test actual Fcitx5 plugin loading and input
+        run: apps/linux/scripts/test.sh

@@ -1,0 +1,7 @@
+post_install() {
+  echo '青简已安装。若以前用 install.sh 安装过，先运行：qingjian-remove-user-install'
+  echo 'Omarchy：systemctl --user restart omarchy-fcitx5.service'
+  echo '运行 fcitx5-configtool，取消「仅显示当前语言」，搜索 Qingjian / 青简并添加。'
+  echo '可选设置：复制 /usr/share/qingjian/config.toml 到 ~/.config/qingjian/config.toml 后修改。'
+}
+post_upgrade() { post_install; }

@@ -6,3 +6,7 @@
 /logs
 /data
 .playwright-mcp/
+
+/dist
+
+__pycache__/
