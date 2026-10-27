@@ -59,13 +59,14 @@
 
 ## 发布
 
-标签用 `linux-v<pkgver>`，不触发上游的发版任务。已发布的版本不覆盖：
+标签用 `omarchy-v<pkgver>`，打在包版本里那个提交上。不要用 `linux-v*`：fork 开着 Actions，
+上游的 `.github/workflows/release.yml` 会被 `linux-v*` 触发。已发布的版本不覆盖：
 
 ```bash
 git push origin omarchy
-git tag -a linux-v<pkgver> -m 'Linux：Omarchy <pkgver>'
-git push origin linux-v<pkgver>
-gh release create linux-v<pkgver> --repo marsjane/qingjian --prerelease \
+git tag -a omarchy-v<pkgver> <pkgver 里 g 后面的哈希> -m 'Linux：Omarchy <pkgver>'
+git push origin omarchy-v<pkgver>
+gh release create omarchy-v<pkgver> --repo marsjane/qingjian --prerelease \
   --title 'Omarchy / Arch <pkgver>' target/linux-pkg/out/*
 ```
 
