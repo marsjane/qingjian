@@ -1,0 +1,18 @@
+# 只打包 build.sh 刚编好、摆好的文件（$QINGJIAN_STAGE），不在这里编译；用 apps/linux/packaging/arch/build.sh 打。
+pkgname=fcitx5-qingjian
+pkgver=${QINGJIAN_PKGVER:?用 apps/linux/packaging/arch/build.sh 打包}
+pkgrel=1
+pkgdesc='Qingjian pinyin input method with learning-language annotations for Fcitx5 (Omarchy fork)'
+arch=(x86_64)
+url='https://github.com/marsjane/qingjian'
+license=(GPL-3.0-or-later)
+depends=(fcitx5 glibc libgcc libstdc++ openssl dbus libxkbcommon wayland)
+optdepends=('noto-fonts-cjk: 设置程序里的中文'
+            'noto-fonts-emoji: 设置程序里的 emoji'
+            'fcitx5-configtool: 把青简加入输入法列表')
+options=(!debug)
+install=qingjian.install
+
+package() {
+  cp -a "$QINGJIAN_STAGE/usr" "$pkgdir/"
+}

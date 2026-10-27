@@ -1,0 +1,33 @@
+# Server 挂到每个用户的会话里自启，已登录的用户直接在正在跑的实例里（重）启动，与 deb 的 postinst 同理。
+_qingjian_users() {
+  loginctl list-users --no-legend 2>/dev/null | while read -r _ user _; do echo "$user"; done
+}
+
+post_install() {
+  systemctl --global enable qingjian-server.service >/dev/null 2>&1 || true
+  # 用户目录里的同名文件（源码 install.sh 或旧 fork 装的）会盖过这个包
+  getent passwd | while IFS=: read -r name _ uid _ _ home _; do
+    [ "$uid" -ge 1000 ] 2>/dev/null || continue
+    for path in "$home/.config/systemd/user/qingjian-server.service" \
+                "$home/.local/share/fcitx5/addon/qingjian.conf" \
+                "$home/.local/lib/fcitx5/qingjian.so"; do
+      [ -e "$path" ] && echo "注意：用户 $name 的 $path 会盖过这个包，用源码的 apps/linux/scripts/uninstall.sh 卸掉"
+    done
+  done
+  for user in $(_qingjian_users); do
+    systemctl --user -M "$user@" daemon-reload >/dev/null 2>&1 || true
+    systemctl --user -M "$user@" restart qingjian-server.service >/dev/null 2>&1 || true
+  done
+  echo '重启 fcitx5（Omarchy：systemctl --user restart omarchy-fcitx5.service），在 fcitx5-configtool 里添加「青简」。'
+}
+
+post_upgrade() {
+  post_install
+}
+
+pre_remove() {
+  systemctl --global disable qingjian-server.service >/dev/null 2>&1 || true
+  for user in $(_qingjian_users); do
+    systemctl --user -M "$user@" stop qingjian-server.service >/dev/null 2>&1 || true
+  done
+}
